@@ -1,0 +1,5 @@
+name: simulacro
+variables:
+  - name: baseURL
+    value: http://localhost:4000
+    description: ""

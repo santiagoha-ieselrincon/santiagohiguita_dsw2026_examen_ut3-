@@ -1,0 +1,19 @@
+info:
+  name: Crear un documento válido
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{baseURL}}/api/v1/admin/documents"
+  body:
+    type: json
+    data: '{"title": "Prueba del endpoint"}'
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
