@@ -66,12 +66,9 @@ export function update(req: Request, res: Response, next: NextFunction): void {
   try {
     const { title, description } = req.body ?? {};
 
-    if (
-      (title !== undefined &&
-        (typeof title !== 'string' || title.trim().length === 0)) ||
-      (description !== undefined && typeof description !== 'string')
-    ) {
-      throw new AppError(400, 'INVALID_DOCUMENT', 'BAD_REQUEST');
+    if (title !== undefined && (typeof title !== 'string' || title.trim().length === 0)) {
+      res.status(400).json({error: 'INVALID_TITLE', message: 'Title must be a non-empty string'});
+      return;
     }
 
     const document = documentsService.update(

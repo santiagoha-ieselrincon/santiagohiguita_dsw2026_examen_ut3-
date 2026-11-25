@@ -7,6 +7,5 @@ export class ResourceNotFoundError extends Error {
   ) {
     super(message);
     this.name = 'ResourceNotFoundError';
-    this.resourceId = resourceId;
   }
 }

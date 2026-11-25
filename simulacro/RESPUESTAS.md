@@ -17,3 +17,6 @@ Luego en `server.ts` importamos la constante `env` que incluye las variables de 
 
 ## ¿Por qué se sube a GitHub el .env.example y se excluye .env?
 Las variables de entorno suelen tener datos privados como API Keys, contraseñas o valores de configuración que no se deberían de publicar.
+
+## Diferencias entre nuevo recorrido del update de documents y el del error centralizado anterior
+Anteriormente se tenía un comportamiento que requería de que los datos se enviaran de una forma específica. Con la nueva versión el cambio más grande es que no estamos creando errores y devolvemos una respuesta con código 400.
