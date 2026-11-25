@@ -7,7 +7,8 @@ import { ResourceNotFoundError } from '../errors/ResourceNotFoundError.js';
 export function list(req: Request, res: Response, next: NextFunction): void {
   try {
     const page = Number(req.query.page ?? 1);
-    const limit = Number(req.query.limit ?? 20);
+    const limit = Number(req.query.limit ?? 2);
+    const match = String(req.query.search ?? '');
 
     if (
       !Number.isInteger(page) ||
@@ -15,11 +16,10 @@ export function list(req: Request, res: Response, next: NextFunction): void {
       page < 1 ||
       limit < 1
     ) {
-      //throw new AppError(400, 'INVALID_PAGINATION', 'BAD_REQUEST');
-      throw new Error('boom');
+      throw new AppError(400, 'INVALID_PAGINATION', 'BAD_REQUEST');
     }
 
-    res.json(noticesService.list(page, limit));
+    res.json(noticesService.list(page, limit, match));
   } catch (err) {
     next(err);
   }
@@ -66,8 +66,12 @@ export function update(req: Request, res: Response, next: NextFunction): void {
   try {
     const { title, description } = req.body ?? {};
 
-    if (title !== undefined && (typeof title !== 'string' || title.trim().length === 0)) {
-      res.status(400).json({error: 'INVALID_TITLE', message: 'Title must be a non-empty string'});
+    if (
+      title !== undefined && (typeof title !== 'string'||
+      title.trim().length === 0) ||
+      (description !== undefined && typeof description !== 'string')
+    ) {
+      res.status(400).json({ error: 'INVALID_PARAMS', message: 'BAD_REQUEST' });
       return;
     }
 
@@ -77,7 +81,7 @@ export function update(req: Request, res: Response, next: NextFunction): void {
     );
 
     if (!notice) {
-      throw new AppError(404, 'NOT_FOUND', 'NOT_FOUND');
+      throw new ResourceNotFoundError(404, 'NOT_FOUND', String(req.params.noticeId), 'RESOURCE_NOT_FOUND');
     }
 
     res.json({ data: notice });

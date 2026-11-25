@@ -46,11 +46,18 @@ const notices: Notice[] = [
   },
 ];
 
-export function list(page: number, limit: number) {
+export function list(page: number, limit: number, match: string) {
+  
+  const term = match.toLowerCase();
+
+  const filtered = notices.filter((notice) =>
+    notice.title.toLowerCase().includes(term)
+  );
+
   const start = (page - 1) * limit;
 
   return {
-    data: notices.slice(start, start + limit),
+    data: filtered.slice(start, start + limit),
     pagination: {
       page,
       limit,

@@ -1,7 +1,7 @@
 opencollection: 1.0.0
 
 info:
-  name: connectia
+  name: simulator
 bundled: false
 extensions:
   bruno:

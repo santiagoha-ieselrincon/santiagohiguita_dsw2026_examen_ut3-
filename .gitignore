@@ -1,3 +1,4 @@
 simulacro/dist
 simulacro/node_modules
 simulacro/.env
+.DS_Store
