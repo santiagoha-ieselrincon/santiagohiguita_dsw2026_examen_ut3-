@@ -8,6 +8,7 @@ import { notFound } from './middlewares/notFound.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { requestId } from './middlewares/requestId.js';
 import { logger } from './middlewares/logger.js';
+import { noticesRouter } from './routes/notices.js';
 
 export function createApp(): Application {
   const app = express();
@@ -20,6 +21,7 @@ export function createApp(): Application {
   app.use('/health', healthRouter);
   app.use('/api/v1/admin/documents', documentsRouter); 
   app.use('/api/v1/questions', questionsRouter);
+  app.use('/api/v1/notices', noticesRouter);
 
   app.use(notFound); // ← NUEVO
   app.use(errorHandler); // ← NUEVO
