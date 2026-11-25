@@ -1,0 +1,16 @@
+info:
+  name: Consultar ruta inexistente
+  type: http
+  seq: 7
+
+http:
+  method: OPTIONS
+  url: "{{baseURL}}/api/null"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

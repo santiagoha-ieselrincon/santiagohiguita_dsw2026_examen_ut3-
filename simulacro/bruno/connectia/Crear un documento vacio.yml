@@ -1,0 +1,19 @@
+info:
+  name: Crear un documento vacio
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: "{{baseURL}}/api/v1/admin/documents"
+  body:
+    type: json
+    data: "{}"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

@@ -2,6 +2,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import * as documentsService from '../services/documentsService.js';
 import { AppError } from '../errors/AppError.js';
+import { ResourceNotFoundError } from '../errors/ResourceNotFoundError.js';
 
 export function list(req: Request, res: Response, next: NextFunction): void {
   try {
@@ -14,7 +15,8 @@ export function list(req: Request, res: Response, next: NextFunction): void {
       page < 1 ||
       limit < 1
     ) {
-      throw new AppError(400, 'INVALID_PAGINATION', 'BAD_REQUEST');
+      //throw new AppError(400, 'INVALID_PAGINATION', 'BAD_REQUEST');
+      throw new Error('boom');
     }
 
     res.json(documentsService.list(page, limit));
@@ -28,7 +30,7 @@ export function getById(req: Request, res: Response, next: NextFunction): void {
     const document = documentsService.getById(String(req.params.documentId));
 
     if (!document) {
-      throw new AppError(404, 'NOT_FOUND', 'NOT_FOUND');
+      throw new ResourceNotFoundError(404, 'NOT_FOUND', String(req.params.documentId), 'RESOURCE_NOT_FOUND');
     }
 
     res.json({ data: document });
