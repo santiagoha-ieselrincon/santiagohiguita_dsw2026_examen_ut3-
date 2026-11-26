@@ -34,22 +34,27 @@ El código de cada error por ejemplo en los controladores lanzan errores con sus
 
 ## Qué esperabas que sucediera antes de probarlo.
 **Primera:** Se lanza el recurso de NotFound y no accede al flujo normal de la app
+
 **Segunda:** Se registra la línea en consola pero no procede con el flujo normal
 
 ## Qué sucedió realmente.
 **Primera:** Se lanzó el error de NotFound
+
 **Segunda:** Se quedó esperando por una respuesta a la petición del endpoint
 
 ## Qué respuesta recibiste o si la petición quedó esperando.
 **Primera:** `{"requestId":"7a57fb08-cbbc-49e0-807f-a094c6a7a239","method":"GET","path":"/api/v1/admin/documents","status":404,"durationMs":7,"timestamp":"2026-11-25T18:00:45.209Z"}`
+
 **Segunda:** Se quedó esperando
 
 ## Qué parte del flujo explica el resultado.
 **Primera:** Como da igual la ruta del endpoint, siempre va a saltar el error se daña el comienzo del flujo
+
 **Segunda:** Al no seguir con la ejecución de los middlewares, se queda en un limbo la petición al no cerrar el flujo
 
 ## Cómo lo corregiste.
 **Primera:** Se pone el resgistro en su posición correcta, después de todos los enrutamientos.
+
 **Segunda:** Se vuelve a llamar a `next()`
 
 ## indica qué middleware y funciones intervienen, dónde se genera la respuesta y si se ejecuta errorHandler
