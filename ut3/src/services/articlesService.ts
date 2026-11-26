@@ -1,7 +1,7 @@
 // Services layer: business logic and data. Plain TypeScript — it never
 // imports Express nor touches req/res/next, so it can be tested without HTTP.
 
-import { randomUUID } from 'node:crypto';
+import { randomUUID } from "node:crypto";
 
 export interface Article {
   id: string;
@@ -18,12 +18,26 @@ export interface ArticleChanges {
 // The in-memory array now lives here, not in the routes.
 const articles: Article[] = [];
 
-export function list(page: number, limit: number) {
+export function list(page: number, limit: number, sinDescripcion: string) {
   const start = (page - 1) * limit;
-  return {
-    data: articles.slice(start, start + limit),
-    pagination: { page, limit, total: articles.length },
-  };
+
+  if (sinDescripcion === '1') {
+
+    const filteredArticles = articles.filter(
+      (article) => article.description === "Sin descripción",
+    );
+
+    return {
+      data: filteredArticles.slice(start, start + limit),
+      pagination: { page, limit, total: filteredArticles.length}
+    }
+  } else {
+
+    return {
+      data: articles.slice(start, start + limit),
+      pagination: { page, limit, total: articles.length },
+    };
+  }
 }
 
 export function getById(id: string): Article | undefined {
@@ -31,6 +45,7 @@ export function getById(id: string): Article | undefined {
 }
 
 export function create(title: string, description: string): Article {
+  description = description === "" ? "Sin descripción" : description;
   const article: Article = {
     id: randomUUID(),
     title,
@@ -41,7 +56,10 @@ export function create(title: string, description: string): Article {
   return article;
 }
 
-export function update(id: string, changes: ArticleChanges): Article | undefined {
+export function update(
+  id: string,
+  changes: ArticleChanges,
+): Article | undefined {
   const article = getById(id);
   if (!article) {
     return undefined;
